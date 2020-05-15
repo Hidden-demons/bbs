@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    url: jdbc:mysql://127.0.0.1:3306/bbs_system?serverTimezone=UTC&characterEncoding=UTF8
+    password: root
+
+mybatis-plus:
+  #扫描配置sql配置文件
+  mapper-locations: classpath:mappers/*.xml
+  type-aliases-package:  org.sy.bean
+  configuration:
+    #数据库字段下划线转驼峰标识 user_name => userName
+    map-underscore-to-camel-case: true
+    #打印sql日志
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

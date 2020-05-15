@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="static/js/jquery-1.12.4.min.js"></script>
+</head>
+<body>
+<form id="loginForm">
+    <p>
+        <input name="username" type="text" value="lisi">
+    </p>
+    <p>
+        <input name="password" type="password" value="lisi"/>
+    </p>
+    <p>
+        <input id="loginbutton" type="button" value="登录"/>
+    </p>
+</form>
+<form id="contentForm">
+    <p>
+        回复内容：<input id="msg" name="msg" value=""/>
+    </p>
+
+    <p>
+        <input id="btnReply" type="button" value="回帖"/>
+    </p>
+</form>
+<p>
+    点击获得防止重复提价的token： <input id="btnAviodToken" type="button" value="获的token"/>
+</p>
+
+<script>
+    $(function () {
+        var loginToken = null;
+        var avoidDuplicateToken = null;
+        //获得防止重复提交token
+        $(document).on("click", "#btnAviodToken", function (event) {
+            $.ajax({
+                type: "get",
+                url: "/pub/token",
+                dataType: "json",
+                headers: {
+                    "token": loginToken
+                },
+                success: function (jsonData) {
+                    console.log("获得防止重复提交token====>>>" + jsonData.avoidDuplicateToken);
+                    avoidDuplicateToken = jsonData.avoidDuplicateToken;
+                },
+                error: function () {
+                    console.log("报错");
+                }
+            })
+        })
+        $(document).on("click", "#btnReply", function (event) {
+            $.ajax({
+                type: "post",
+                url: "/user/add",
+                dataType: "json",
+                headers: {
+                    "token": loginToken
+                },
+                data: {"msg": $("#msg").val()},
+                success: function (jsonData) {
+                    console.log(jsonData);
+                },
+                error: function () {
+                    console.log("。。。！！！")
+                }
+            })
+        })
+
+
+        $.fn.serializeObject = function () {
+            console.log(this.serializeArray());
+            var arr = this.serializeArray();
+
+            var obj = {};
+
+            arr.map(function (row, index) {
+                // console.log(row.name);
+                // console.log(index);
+                obj[row.name] = row.value;
+            })
+            return obj;
+        }
+
+        //事件冒泡机制
+        $(document).on("click", "#loginbutton", function (event) {
+            console.log($("#loginForm").serialize());//username=lisi&password=lisi
+            //console.log(dataStr);  //username=lisi&password=lisi
+
+            //需要将  username=lisi&password=lisi  转成 JSON 对象
+            var jsonForm = $("#loginForm").serializeObject();
+
+            /**
+             *后台用了 @RequestBody ，所以如果采用 AJAX提交数据，需要将
+             * json对象转成 json格式的字符串
+             */
+
+            var jsonStr = JSON.stringify(jsonForm); //将JSON对象转成josn格式的字符串
+            $.ajax({
+                type: "post",
+                url: "/pub/login",
+                dataType: "json",
+                data: jsonStr,
+                contentType: "application/json",
+                success: function (jsonData) {
+                    loginToken = jsonData.date.sessionId;
+                    console.log("==========>loginToken" + loginToken);
+                },
+                error: function () {
+                    console.log("报错");
+                }
+            })
+        })
+    })
+</script>
+</body>
+</html>

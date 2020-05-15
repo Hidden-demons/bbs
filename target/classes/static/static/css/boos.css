@@ -1,0 +1,39 @@
+.navbar-inverse .navbar-brand {
+    color: orange;
+	line-height: 35px;
+	height: 70px;
+	font-size: 36px;
+	font-weight: bold;
+}
+
+.navbar-inverse .navbar-nav >li >a{
+	height: 70px;
+	line-height: 35px;
+}
+.navbar-inverse .navbar-brand:hover {
+	color: orange;
+}
+
+#nv_ul .badge{
+	background: red;
+}
+.glyphicon {
+    position: relative;
+    top: 4px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.input-group{
+	margin: 10px;
+}
+.panel {
+	margin: 10px;
+}
+.panel-title:hover{
+	text-decoration:none;
+}

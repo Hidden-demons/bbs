@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link rel="stylesheet" href="static/css/bootstrap.css" />
+    <link rel="stylesheet" href="static/css/boos.css" />
+    <link rel="stylesheet" href="static/css/bootstrap-table.css" />
+</head>
+<body>
+<!--
+    navbar : 导航条的基础类别
+    navber-inverse：设置颜色是黑色
+ -->
+
+<nav class="navbar navbar-inverse">
+    <!-- 容器开始 -->
+    <div class="container">
+        <!-- 小屏幕的按钮和品牌 -->
+        <div class="navbar-header"  >
+            <button class="navbar-toggle" type="button" data-toggle = "collapse" data-target = "#nv_co">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="index.html" class="navbar-brand">三阳科技</a>
+        </div>
+        <div class="collapse navbar-collapse" id="nv_co">
+            <ul class="nav navbar-nav navbar-right" id="nv_ul">
+                <li>
+                    <a href="#">
+                        <span class="glyphicon glyphicon-envelope"></span>
+                        <span class="badge">12</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="glyphicon glyphicon-user"></span>
+                        <span class="badge">22</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="glyphicon glyphicon-earphone"></span>
+                        <span class="badge">42</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-toggle = "dropdown">
+                        <img src="static/img/74494215_p0.png" width="35px" height="35px" class="img-circle"/>
+                        <span> &nbsp; 欢迎: &nbsp; </span>
+                        <strong>辉</strong>
+                    </a>
+                    <ul class="dropdown-menu nav nav-pills nav-stacked">
+                        <li class="active">
+                            <a href="#">
+                                <span class="glyphicon glyphicon-shopping-cart">&nbsp;我的购物车</span>
+                            </a>
+                        </li>
+                        <li><a href="#">我的积分</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">退出</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- 容器结束 -->
+</nav>
+<!-- 栅格系统 -->
+<div class="row">
+    <div class="col-sm-2 col-lg-2">
+        <!-- 输入组 -->
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="请输入查询">
+            <span class="input-group-btn">
+				  		<button class="btn btn-warning" type="button">Go!</button>
+					</span>
+        </div><!-- /input-group -->
+        <!-- 折叠菜单 -->
+        <div class="panel panel-success">
+            <div class="panel-heading" data-toggle = "collapse" data-target = "#nv_1">
+                <a class="panel-title" href="#" >用户管理</a>
+            </div>
+            <!-- 折叠部分；点击头部折叠下面的部分 -->
+            <div class="panel-collapse collapse out" id="nv_1">
+                <div class="panel-body ">
+                    <!-- 下拉列表 -->
+                    <ul class="nav nav-stacked nav-pills">
+                        <li><a href="#">用户须知</a></li>
+                        <li><a href="#">用户修改</a></li>
+                        <li><a href="#">用户查询</a></li>
+                        <li><a href="#">用户添加</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="panel-heading" data-toggle = "collapse" data-target = "#nv_2">
+                <a class="panel-title" href="#" >角色管理</a>
+            </div>
+            <div class="panel-collapse collapse in" id="nv_2">
+                <div class="panel-body ">
+                    <!-- 下拉列表 -->
+                    <ul class="nav nav-stacked nav-pills">
+                        <li><a href="#">角色须知</a></li>
+                        <li><a href="#">角色修改</a></li>
+                        <li><a href="#">角色查询</a></li>
+                        <li><a href="#">角色添加</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 下拉菜单参考
+         nav-stacked 垂直式
+         nav-pills 胶囊式
+    -->
+    <div class="col-sm-10 col-lg-10">
+        <table class="table table-bordered table-striped"  id="myTable">
+        </table>
+    </div>
+</div>
+<script type="text/javascript" src="static/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="static/js/bootstrap.js"></script>
+<script type="text/javascript" src="static/js/bootstrap-table.js"></script>
+<script type="text/javascript" src="static/js/bootstrap-table-zh-CN.min.js"></script>
+</body>
+<script>
+    $(function(){
+        $("#myTable").bootstrapTable({
+            url: "http://127.0.0.1:8080/user/findAllOK",
+            method: 'Get', //请求方式
+            dataType: 'json',
+            pagination: true,                   //是否显示分页（*）
+            sortable: true,                     //是否启用排序
+            sortOrder: "asc",                   //排序方式
+            sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
+            pageNumber: 1,                      //初始化加载第一页，默认第一页,并记录
+            pageSize: 10,                     //每页的记录行数（*）
+            pageList: [5, 10, 20, 50],        //可供选择的每页的行数（*）
+            columns:[{
+                title:'主键',
+                field:'id'
+            }, {
+                title: '账号',
+                field: 'usercode'
+            }, {
+                title: '姓名',
+                field: 'username'
+            },{
+                title: '密码',
+                field: 'password'
+            },{
+                title: '盐',
+                field: 'salt'
+            }, {
+                title: '账号是否锁定',
+                formatter: function(value,row,index){
+                    if(row.locked == 0){
+                        return '未锁定'
+                    }else if(row.locked == 1){
+                        return '锁定'
+                    }
+                }
+            }]
+        });
+    });
+</script>
+</html>
